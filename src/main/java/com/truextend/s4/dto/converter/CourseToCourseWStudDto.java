@@ -25,7 +25,9 @@ public class CourseToCourseWStudDto implements Converter<Course, CourseWithStude
         CourseWithStudentDto dto = new CourseWithStudentDto();
         dto.setCourseCode(source.getCode());
         dto.setTitle(source.getTitle());
-        dto.setStudents(source.getStudents().stream().map(studentToStudentDto::convert).collect(Collectors.toSet()));
+        dto.setStudents(source.getStudents().stream()
+                .map(studentToStudentDto::convert)
+                .collect(Collectors.toSet()));
         return dto;
     }
 }

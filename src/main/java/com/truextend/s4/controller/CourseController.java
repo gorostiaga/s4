@@ -60,7 +60,8 @@ public class CourseController {
         return ResponseEntity.ok(response);
     }
     @GetMapping(value = "isCourse")
-    public ResponseEntity<Map<String, CourseDto>> getCourseInStudent(@RequestParam("courseCode") String courseCode, @RequestParam("studentId") Long studentId){
+    public ResponseEntity<Map<String, CourseDto>> getCourseInStudent(
+            @RequestParam("courseCode") String courseCode, @RequestParam("studentId") Long studentId){
         CourseDto courseDto = courseService.getCourseInStudent(courseCode, studentId);
         Map<String, CourseDto> response = new HashMap<>();
         response.put("course", courseDto);

@@ -34,7 +34,9 @@ public class CourseService {
 
     public void update(String id, CourseRequest request) {
         Course updatedCourse = courseReqToCourse.convert(request);
-        Course updatingCourse = courseRepo.findById(id).orElseThrow(()-> new NotFoundException("Item not found - " + id));
+        Course updatingCourse = courseRepo
+                .findById(id)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + id));
         updatingCourse.setCode(updatedCourse.getCode());
         updatingCourse.setTitle(updatedCourse.getTitle());
         updatingCourse.setDescription(updatedCourse.getDescription());
@@ -54,17 +56,25 @@ public class CourseService {
     }
 
     public Course findById(String id){
-        return courseRepo.findById(id).orElseThrow(()-> new NotFoundException("Item not found - " + id));
+        return courseRepo
+                .findById(id)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + id));
     }
 
     public CourseWithStudentDto getCourse(String id) {
-        Course course = courseRepo.findById(id).orElseThrow(()-> new NotFoundException("Item not found - " + id));
+        Course course = courseRepo
+                .findById(id)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + id));
         return courseToCourseWStudDto.convert(course);
     }
 
     public CourseDto getCourseInStudent(String courseCode, Long studentId) {
-        Course course = courseRepo.findById(courseCode).orElseThrow(()-> new NotFoundException("Item not found - " + courseCode));
-        Student studentResult = course.getStudents().stream().filter(student -> student.getStudentId().equals(studentId)).findFirst().orElse(null);
+        Course course = courseRepo
+                .findById(courseCode)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + courseCode));
+        Student studentResult = course.getStudents().stream()
+                .filter(student -> student.getStudentId().equals(studentId))
+                .findFirst().orElse(null);
         if (studentResult == null) return null;
         else return courseToCourseDto.convert(course);
 

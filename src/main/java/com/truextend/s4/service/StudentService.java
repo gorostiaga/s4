@@ -14,7 +14,6 @@ import com.truextend.s4.repos.StudentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -39,7 +38,9 @@ public class StudentService {
 
     public void update(Long id, StudentRequest request) {
         Student updatedStudent = studentReqToStudent.convert(request);
-        Student updatingStudent = studentRepo.findById(id).orElseThrow(()-> new NotFoundException("Item not found - " + id));
+        Student updatingStudent = studentRepo
+                .findById(id)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + id));
         updatingStudent.setFirstName(updatedStudent.getFirstName());
         updatingStudent.setLastName(updatedStudent.getLastName());
         studentRepo.save(updatingStudent);
@@ -59,23 +60,30 @@ public class StudentService {
 
     public void addToCourse(AddStudentToCourseRequest request) {
         Course course = courseService.findById(request.getCourseCode());
-        Student student = studentRepo.findById(request.getStudentId()).orElseThrow(()-> new NotFoundException("Item not found - " + request.getStudentId()));
+        Student student = studentRepo
+                .findById(request.getStudentId())
+                .orElseThrow(()-> new NotFoundException("Item not found - " + request.getStudentId()));
         student.getCourses().add(course);
         studentRepo.save(student);
     }
 
     public StudentWithCourseDto getStudent(Long id) {
-        Student student = studentRepo.findById(id).orElseThrow(()-> new NotFoundException("Item not found - " + id));
+        Student student = studentRepo
+                .findById(id)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + id));
         return studentToStudentWCourseDto.convert(student);
     }
 
     public Student findById(Long id){
-        return studentRepo.findById(id).orElseThrow(()-> new NotFoundException("Item not found - " + id));
+        return studentRepo.findById(id)
+                .orElseThrow(()-> new NotFoundException("Item not found - " + id));
     }
 
     public StudentDto getStudentInCourse(String courseCode, Long studentId) {
         Course course = courseService.findById(courseCode);
-        Student studentResult = course.getStudents().stream().filter(student -> student.getStudentId().equals(studentId)).findFirst().orElse(null);
+        Student studentResult = course.getStudents().stream()
+                .filter(student -> student.getStudentId()
+                        .equals(studentId)).findFirst().orElse(null);
         return studentToStudentDto.convert(studentResult);
     }
 }

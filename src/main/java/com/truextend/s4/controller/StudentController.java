@@ -64,8 +64,9 @@ public class StudentController {
     }
 
     //Search student in a given course
-    @GetMapping(value = "isStudent")
-    public ResponseEntity<Map<String, StudentDto>> getStudentInCourse(@RequestParam("courseCode") String courseCode, @RequestParam("studentId") Long studentId){
+    @GetMapping(value = "/isStudent")
+    public ResponseEntity<Map<String, StudentDto>> getStudentInCourse(
+            @RequestParam("courseCode") String courseCode, @RequestParam("studentId") Long studentId){
         StudentDto studentDto = studentService.getStudentInCourse(courseCode, studentId);
         Map<String, StudentDto> respose = new HashMap<>();
         respose.put("student", studentDto);
